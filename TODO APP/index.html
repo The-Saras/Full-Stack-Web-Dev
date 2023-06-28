@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Carter+One&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <style>
+    .card {
+      display: block;
+      width: 300px;
+      background-color: #f1f1f1;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 16px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-family: "Carter One", cursive;
+    }
+
+    .content {
+      font-size: 16px;
+      color: #555;
+      font-family: "Carter One", cursive;
+    }
+
+    .action {
+      display: block;
+      width: 100%;
+      margin-top: 16px;
+      padding: 8px 16px;
+      background-color: #e5025a;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: "Carter One", cursive;
+    }
+
+    .action:hover {
+      background-color: #e5025a;
+    }
+    .form {
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    .input {
+      display: block;
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: "Carter One", cursive;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      padding: 8px 16px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: "Carter One", cursive;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+    span {
+      font-family: "Carter One", cursive;
+    }
+  </style>
+  <body>
+    <script>
+      function parsedResponse(data) {
+        console.log(data);
+      }
+
+      function callback(resp) {
+        resp.json().then(parsedResponse);
+      }
+      function submit() {
+        var title = document.getElementById("t").value;
+        var description = document.getElementById("d").value;
+        fetch("http://localhost:3000/todos", {
+          method: "POST",
+          body: JSON.stringify({
+            title: title,
+            des: description,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then(callback);
+      }
+
+      async function deleteTodo(id) {
+        const dlttd = await fetch("http://localhost:3000/todos/" + id, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        res.status(200).json(dlttd);
+      }
+
+      async function displayTodos() {
+        const response = await fetch("http://localhost:3000/todos", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const alltodos = await response.json();
+        var parentElement1 = document.getElementById("mainarea");
+        for (let i = 0; i < alltodos.length; i++) {
+          var parentElement = document.createElement("div");
+
+          var tl = document.createElement("span");
+          var des = document.createElement("span");
+          var br = document.createElement("br");
+          var btn = document.createElement("button");
+
+          parentElement.classList.add("card");
+          tl.classList.add("title");
+          des.classList.add("content");
+          btn.classList.add("action");
+
+          tl.innerHTML = alltodos[i].title;
+          des.innerHTML = alltodos[i].description;
+
+          btn.innerHTML = "Delete";
+          btn.setAttribute("onclick", "deleteTodo(" + alltodos[i].id + ")");
+
+          parentElement.appendChild(tl);
+          parentElement.appendChild(br);
+          parentElement.appendChild(des);
+          parentElement.appendChild(btn);
+
+          parentElement1.appendChild(parentElement);
+        }
+      }
+      displayTodos();
+    </script>
+    <div class="form">
+      <span> Title:</span
+      ><input name="t" id="t" type="text" class="input" /><br /><br />
+      <span> Description:</span
+      ><input name="d" id="d" type="text" class="input" /> <br /><br />
+      <button onclick="submit()" class="button">Submit</button>
+    </div>
+    <div id="mainarea" class="ma"></div>
+  </body>
+</html>
