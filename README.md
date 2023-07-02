@@ -6,9 +6,9 @@
 
 Learn and become a full-stack developer with me 
 
-- This repositary contains all the resources you can use to learn Full-Stack Development.
-- It also Contains the projects That I build In the process.
-- ⭐ This repositary and join me in the Journey!
+- This repository contains all the resources you can use to learn Full-Stack Development.
+- It also contains the projects That I build In the process.
+- ⭐ This repository and join me in the Journey!
 
 
 ## 🔗 Links
